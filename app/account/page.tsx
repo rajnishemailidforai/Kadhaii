@@ -1,0 +1,7 @@
+"use client";
+
+import Link from "next/link";
+import { useStore } from "@/components/StoreProvider";
+import { formatINR } from "@/lib/commerce";
+
+export default function AccountPage() { const { orders, wishlist } = useStore(); return <div className="account-page"><header className="utility-hero"><p>Guest account</p><h1>Your Kadhai<br /><em>corner.</em></h1><span>No sign-in is required for this prototype.</span></header><div className="guest-banner"><div><span>G</span></div><section><p>You’re browsing as a guest</p><h2>A future account could hold your addresses, orders, preferences, and saved pieces.</h2></section><button disabled>Sign in · Coming later</button></div><div className="account-cards"><Link href="/wishlist"><span>♡</span><h3>Wishlist</h3><p>{wishlist.length} saved pieces</p></Link><Link href="/track-order"><span>↗</span><h3>Track order</h3><p>Follow a demo status</p></Link><Link href="/faq"><span>?</span><h3>Customer care</h3><p>Answers and prototype policies</p></Link></div><section className="demo-orders"><h2>Demo order history</h2>{orders.length ? orders.map((order) => <Link href={`/track-order?order=${order.id}`} key={order.id}><div><span>{new Date(order.createdAt).toLocaleDateString("en-IN")}</span><strong>{order.id}</strong></div><div><span>{order.status}</span><strong>{formatINR(order.total)}</strong></div></Link>) : <div className="empty-orders"><p>No prototype orders on this device yet.</p><Link href="/shop">Start shopping ↗</Link></div>}</section></div>; }
